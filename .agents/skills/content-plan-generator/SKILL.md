@@ -79,13 +79,13 @@ If the user has not specified the brand, ask. The expected structure is:
 Brands/{BrandName}/
   .agents/
     product-marketing.md
-  Knowledgebase/
+  01_knowledge_base/
     ... .html files
-  BrandKit/
-    brand-guide.html
+  02_brand_kit/
+    brand_guide.md
     logos/
-    app-screenshots/
-    mockups/
+    product_visuals/
+    print_collateral/
 ```
 
 ### 0b — Load product-marketing.md
@@ -102,7 +102,7 @@ If it does **not** exist:
 
 ### 0c — Load Knowledgebase files
 
-Scan `Brands/{BrandName}/Knowledgebase/` for `.html` files. Read them in this priority:
+Scan `Brands/{BrandName}/01_knowledge_base/` for `.html` files. Read them in this priority:
 
 | Priority | Match pattern | What to extract |
 |---|---|---|
@@ -122,15 +122,21 @@ Extract and hold in working memory:
 - **Tone fingerprint** — voice, register, localization notes, banned words
 - **Brand URLs** — documented links for CTAs
 
-### 0d — Load Brand Kit
+### 0d — Load Brand Guide
 
-Check `Brands/{BrandName}/BrandKit/`. If it contains a brand guide:
+The brand guide is the visual identity source. Look for it in this priority:
 
-- Extract: color palette, typography, logo usage rules, visual style guidelines
-- Note available assets: logo files, app screenshots, mockups
+1. **Preferred:** `Brands/{BrandName}/[BrandName]_brand_guide.md` (our canonical convention — e.g., `PayWise_brand_guide.md`)
+2. **Fallback:** `Brands/{BrandName}/brand_guide.md` (unprefixed)
+3. **Last resort:** Scan `Brands/{BrandName}/02_brand_kit/` for any file with a name containing `brand-guide` or `brand_guide` (any extension)
+
+Found file at whichever location:
+
+- Extract: color palette (hex values), typography (typeface, weights), logo usage rules, visual style guidelines, voice and tone cues
+- Note available assets: logo files, screenshots, mockups
 - Store for design brief generation in Step 5
 
-If no brand kit exists, skip — design briefs will note "no brand kit available."
+If no brand guide exists anywhere, skip — design briefs will note "no brand guide available."
 
 ---
 
@@ -254,7 +260,7 @@ Slide 4 (optional): [CTA — action phrase, 3-8 words]
 * Only produce heavy-text slides if user explicitly requested "detailed carousel" or "educational carousel."
 
 DESIGN BRIEF
-- Brand guide: [path to brand-guide.html]
+- Brand guide: `brand_guide.md`
 - Color palette: [from brand kit — primary, secondary, accent]
 - Typography: [from brand kit — headline + body fonts]
 - Image style: [from brand kit or interview direction]
@@ -262,6 +268,7 @@ DESIGN BRIEF
 
 CAPTION
 [1-2 sentence caption. Conversational. Ends with CTA + URL.]
+```
 ```
 
 ### Blog Post (load `copywriting` + `seo-audit`/`ai-seo`)
@@ -485,7 +492,7 @@ KEY DATA POINTS
 - [Stat or section 3]
 
 DESIGN BRIEF
-- Brand guide: [path to brand-guide.html]
+- Brand guide: `brand_guide.md`
 - Color palette: [from brand kit]
 - Typography: [from brand kit]
 - Visualization style: [chart types, iconography, layout preference]

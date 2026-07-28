@@ -43,7 +43,7 @@ Three inputs. Check what's already available before asking the user for anything
 
 1. **The Content Plan** for the relevant month(s) — specifically its blog post
    entries (title, intro direction, H2 skeleton, persona, CTA hint).
-2. **The brand's knowledgebase** — check the Project knowledgebase first
+2. **The brand's knowledge base (`01_knowledge_base/`)** — check the brand's `01_knowledge_base/` first
    (Marketing Brain outputs, message block library, buyer psychology docs, past
    content, etc.).
 3. **A sitemap or page list** for internal linking — same rule: knowledgebase
@@ -69,10 +69,10 @@ forward.
 
 ---
 
-## Step 1 — Locate the knowledgebase and sitemap
+## Step 1 — Locate the knowledge base and sitemap
 
 Before writing anything, confirm where the brand's knowledgebase and sitemap
-actually live for this run. Hold in mind, from the knowledgebase:
+actually live for this run. Hold in mind, from `01_knowledge_base/`:
 - Brand tone, voice, and approved/avoided phrasing
 - Services, offers, differentiators, audience
 - Buyer psychology / cluster docs

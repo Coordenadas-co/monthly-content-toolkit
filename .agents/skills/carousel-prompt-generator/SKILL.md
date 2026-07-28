@@ -135,7 +135,7 @@ stay alert for the user correcting or updating something.
 
 After reading the brand guide, check whether a file named
 `[BrandName]_Prompt_Improvement_Guide.md` exists in the
-Knowledgebase/ directory for this client. If it exists, read it.
+01_knowledge_base/rules/ directory for this client. If it exists, read it.
 
 This file contains brand-specific quality corrections that override the
 generic defaults in this skill and in the client's template library. Apply
