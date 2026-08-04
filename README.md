@@ -10,7 +10,7 @@ Clone, run `setup.ps1`, delete the repo. Skills persist in OpenCode.
 Give this URL to your OpenCode agent:
 
 ```
-https://github.com/deigo-PC/monthly-content-toolkit
+https://github.com/Coordenadas-co/monthly-content-toolkit
 ```
 
 Say: **"Install the monthly content toolkit from this repo."**
@@ -20,7 +20,7 @@ The agent will clone this repo, run setup, and confirm installation.
 ## Quick start (manual)
 
 ```powershell
-git clone https://github.com/deigo-PC/monthly-content-toolkit.git
+git clone https://github.com/Coordenadas-co/monthly-content-toolkit.git
 cd monthly-content-toolkit
 .\setup.ps1
 ```
@@ -90,5 +90,5 @@ up. Total runtime: ~30-45 minutes.
 ## Remote
 
 ```
-origin  https://github.com/deigo-PC/monthly-content-toolkit.git
+origin  https://github.com/Coordenadas-co/monthly-content-toolkit.git
 ```

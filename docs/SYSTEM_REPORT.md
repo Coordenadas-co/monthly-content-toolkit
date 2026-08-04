@@ -1,7 +1,7 @@
 # Coordenadas Content System — Comprehensive Report
 
 > Generated: 21 Jul 2026  
-> Repo: `github.com/deigo-PC/monthly-content-toolkit`  
+> Repo: `github.com/Coordenadas-co/monthly-content-toolkit`  
 > Runtime: **OpenCode** skills system  
 > Skills: 5 custom + 46 marketing (coreyhaines31/marketingskills)
 
@@ -412,7 +412,7 @@ Delete the config file to force a fresh direction interview.
 ### One-Time Bootstrap Flow
 
 ```
-git clone https://github.com/deigo-PC/monthly-content-toolkit.git
+git clone https://github.com/Coordenadas-co/monthly-content-toolkit.git
 cd monthly-content-toolkit
 .\setup.ps1
 cd ..
