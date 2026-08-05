@@ -632,10 +632,12 @@ Push notifications do not appear as calendar rows — they're attached to their 
 Use the `write` tool to save the full plan:
 
 ```
-output/[BrandName]_Content_Plan_[MONTH]_[YEAR].md
+output/[BrandName]_Content_Plan_[Month]_[Year].md
 ```
 
-Example: `output/PayWise_Content_Plan_JULY_2026.md`
+Example: `output/PayWise_Content_Plan_September_2026.md`
+
+> **Filename month-token convention (CRITICAL):** use a Title-case full month name (`August_2026`, `September_2026`) — the SAME token carousel-prompt-generator and blog-post-generator emit (`[BrandName]_Carousel_Prompts_August_2026.html`, `[BrandName]_Blog_Posts_August_2026.html`). Do NOT use uppercase (`AUGUST_2026`) or abbreviations (`AUG`) — Stage 2/3 filenames use Title-case full months, and the manifest's `detail_link` values must reference those exact filenames.
 
 Include the complete plan with all headings, tables, and formatting.
 
@@ -688,7 +690,7 @@ After approval, generate the styled HTML version:
      ```
      Each deliverable card (expandable, filterable):
      ```html
-     <div class="deliverable-card" data-type="carousel" data-persona="persona-slug">
+     <div class="deliverable-card" data-type="carousel" data-persona="persona-slug" id="carousel-1">
        <div class="deliverable-header">
          <div class="deliverable-header-left">
            <div class="deliverable-meta">
@@ -712,12 +714,21 @@ After approval, generate the styled HTML version:
      - `data-type` values: use singular lowercase (carousel, blog, email, infographic, video, social, ad, lead-magnet, seo-page, push)
      - `data-persona` values: use kebab-case slug matching the persona key (diaspora-dreamers, savvy-savers, etc.)
      - Push notifications go as separate `.deliverable-card` with type="push" attached beneath the related blog post card
+      - **Card ID contract (CRITICAL):** every deliverable card MUST carry a unique `id` matching the real downstream anchor exactly, per type:
+        - Carousels → `id="carousel-1"`, `id="carousel-2"`, … `carousel-N` (matches `carousel-prompt-generator`'s static sections → `id="carousel-N"` → `#carousel-1…#carousel-N`. Do NOT use `c1`/`c2` — that scheme diverged from the real anchor and is retired.)
+        - Blog posts → `id="post-1"`, `id="post-2"`, … `post-N` (matches `blog-post-generator`'s rendered `id="post-${p.id}"` → `#post-N`. Do NOT use `b1`/`b2` — that scheme diverged from the real anchor and is retired.)
+       - Newsletters → `id="nl1"`, `id="nl2"`, … (no confirmed downstream anchor yet — keep as-is)
+       - Infographics → `id="ig1"`, `id="ig2"`, … (no confirmed downstream anchor yet — keep as-is)
+       - Other types: `id` optional unless a downstream anchor exists
+     - **Default ID policy (CRITICAL):** when a downstream skill for a type exists, audit its REAL rendered anchor format first (open an actual generated output file and check the `id`/`href` it emits), then align this content-plan card ID to match — never the reverse, never guessed in advance. The detail-link JS in the template resolves cards by this ID.
+     - The template's built-in JS reads `#content-manifest` (embedded via `{{MANIFEST_JSON}}`) and injects a `🔗 Detail` link into each matching card's `.card-actions` automatically. Just provide the right `id` and the manifest (Step 10d). Do not hand-write detail links in card HTML.
    - `{{CALENDAR_ROWS}}` — `<tr>` rows for the content calendar table
    - `{{ANALYTICS_SECTION}}` — UTM table, events table, conversion goals (or empty if user declined analytics)
+   - `{{MANIFEST_JSON}}` — raw JSON of the content manifest (see Step 10d); goes inside the template's `<script type="application/json" id="content-manifest">` block
    - `{{GENERATED_DATE}}` — current date
 3. **Write the file** — use the `write` tool:
    ```
-   output/[BrandName]_Content_Plan_[MONTH]_[YEAR].html
+   output/[BrandName]_Content_Plan_[Month]_[Year].html
    ```
 4. **Deliver summary** — tell the user the file path and include the same 3-bullet summary from Step 10b
 
@@ -727,6 +738,48 @@ After approval, generate the styled HTML version:
 - Weeks start expanded by default. Users can collapse individual weeks via the header, or use the "Collapse all" / "Expand all" toolbar buttons.
 - Cards start collapsed (body hidden). Click the header to expand.
 - Print stylesheets hide the sidebar, toolbar, and buttons — content prints cleanly.
+
+### 10d — Generate the JSON Manifest
+
+Write a machine-readable manifest alongside the HTML, one entry per **carousel** and per **blog post** (only these two types — they are the only ones with a dedicated downstream output file and confirmed anchors). Use the `write` tool:
+
+```
+output/[BrandName]_Content_Plan_[Month]_[Year].json
+```
+
+Schema:
+
+```json
+{
+  "brand": "PayWise",
+  "month": "September 2026",
+  "generated_date": "2026-08-05",
+  "deliverables": [
+    {
+      "type": "carousel",
+      "id": "carousel-1",
+      "title": "Carousel 1 — Your Counter. Your Commission.",
+      "detail_link": "../../02_prompts_and_copy/output/PayWise_Carousel_Prompts_September_2026.html#carousel-1"
+    },
+    {
+      "type": "blog_post",
+      "id": "post-1",
+      "title": "Pharmacies in T&T: The Secret to Earning More",
+      "detail_link": "../../02_prompts_and_copy/output/PayWise_Blog_Posts_September_2026.html#post-1"
+    }
+  ]
+}
+```
+
+Rules:
+
+- `id` MUST equal the card `id` used in Step 10c AND the real downstream anchor (`carousel-1…#carousel-N`, `post-1…post-N`) — verified, not guessed.
+- `detail_link` is **relative to the content-plan output page** (the manifest/HTML both live in `01_content_plan/output/`): `../../02_prompts_and_copy/output/[BrandName]_Carousel_Prompts_[Month]_[Year].html#<id>` for carousels, `../../02_prompts_and_copy/output/[BrandName]_Blog_Posts_[Month]_[Year].html#<id>` for blog posts. The `../../` climbs from `01_content_plan/output/` up to the cycle root, then into `02_prompts_and_copy/output/`. Do NOT use cycle-folder-relative paths (`02_prompts_and_copy/output/...`) — resolved from the content-plan page they produce a nonexistent `01_content_plan/output/02_prompts_and_copy/output/...` path. Do NOT use workspace-root-relative paths (`Brands/...`) — they only work when the page is opened from the workspace root.
+- **Verify before delivering (CRITICAL):** after writing the manifest, resolve every `detail_link` relative to `01_content_plan/output/` (e.g., `node -e` or equivalent) and confirm (a) the target Stage-2/3 file exists on disk (for an already-completed cycle) or matches the exact filename Stage 2/3 will emit, and (b) the `#<id>` fragment equals a real `id` in that target file's HTML. Fix any mismatch before delivering. For a freshly generated plan whose Stage 2/3 files don't exist yet, confirm the filename token and anchor match the downstream skill specs exactly.
+- The manifest is written at content-plan generation time, BEFORE Stage 2/3 output files exist. The links are forward-pointing by design — do not edit the plan afterward once Stage 2/3 runs.
+- **Escaping (CRITICAL):** titles may contain apostrophes, quotes, and ampersands. Emit valid JSON — escape `"` as `\"`, `&` and `'` as `\u0026` / `\u0027` (the convention already used in carousel-prompt-generator's data JSON). After writing, validate the file parses (e.g., `JSON.parse`) before delivering. Never inline-append a raw title into JSON.
+- Embed the same JSON into the HTML via the `{{MANIFEST_JSON}}` placeholder (the template's `<script type="application/json" id="content-manifest">` block) — write it as raw JSON inside the script block. The template JS parses it and injects Detail links into matching cards automatically. If a title contains `</script>`, escape the `<` to `\u003c`.
+- If the user declines or the plan has zero carousels and zero blog posts, write `{"brand": "...", "month": "...", "generated_date": "...", "deliverables": []}`.
 
 ---
 

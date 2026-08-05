@@ -617,6 +617,27 @@
     color: var(--success);
   }
 
+  .detail-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 11px;
+    font-family: var(--font);
+    padding: 5px 10px;
+    text-decoration: none;
+    transition: background .1s, color .1s;
+  }
+
+  .detail-link:hover {
+    background: var(--border);
+    color: var(--text);
+  }
+
   /* ── NO RESULTS ── */
   .no-results {
     display: none;
@@ -882,6 +903,9 @@
 <!-- ── SCROLL-TO-TOP ── -->
 <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">↑</button>
 
+<!-- ── CONTENT MANIFEST (machine-readable deliverable index) ── -->
+<script type="application/json" id="content-manifest">{{MANIFEST_JSON}}</script>
+
 <script>
 (function() {
 
@@ -1044,6 +1068,32 @@
       setTimeout(function() { btn.textContent = '📋 Copy'; }, 1500);
     });
   });
+
+  // ── DETAIL LINKS (from embedded content manifest) ──
+  var manifestScript = document.getElementById('content-manifest');
+  var manifest = null;
+  if (manifestScript) {
+    try {
+      manifest = JSON.parse(manifestScript.textContent);
+    } catch (err) {
+      manifest = null;
+    }
+  }
+  if (manifest && manifest.deliverables && manifest.deliverables.length) {
+    manifest.deliverables.forEach(function(item) {
+      if (!item || !item.id || !item.detail_link) return;
+      var card = document.getElementById(item.id);
+      if (!card) return;
+      var actions = card.querySelector('.card-actions');
+      if (!actions) return;
+      var link = document.createElement('a');
+      link.className = 'detail-link';
+      link.href = item.detail_link;
+      link.textContent = '🔗 Detail';
+      link.title = item.detail_link;
+      actions.insertBefore(link, actions.firstChild);
+    });
+  }
 
   // ── FILTER CHIPS ──
   var filterBar = document.getElementById('filterBar');
