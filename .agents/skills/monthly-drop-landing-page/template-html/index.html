@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{CLIENT}} — Monthly Drop</title>
+  <meta name="description" content="Monthly content drop preview: carousels, blog posts and newsletters." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div class="brand">
+        <span class="brand-name" id="meta-client">—</span>
+        <span class="brand-period" id="meta-period"></span>
+      </div>
+      <nav class="nav">
+        <a href="#grid">Grid</a>
+        <a href="#carousels">Carousels</a>
+        <a href="#blogs">Blogs</a>
+        <a href="#newsletters">Newsletters</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="intro wrap">
+    <p class="eyebrow">Content Preview</p>
+    <h1 id="hero-title">— Monthly Drop</h1>
+    <p class="lede" id="hero-lede"></p>
+    <div class="cta-row" id="hero-links"></div>
+  </section>
+
+  <section id="grid" class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <h2>Instagram Grid Preview</h2>
+        <p>How the feed will look at end of month — first slide of each carousel.</p>
+      </header>
+      <div class="grid-preview" id="grid-preview"></div>
+    </div>
+  </section>
+
+  <section id="carousels" class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <h2>Carousels</h2>
+        <p id="carousels-subtitle"></p>
+      </header>
+      <div id="carousels-list" class="stack-16"></div>
+    </div>
+  </section>
+
+  <section id="blogs" class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <h2>Blog Posts</h2>
+        <p>Posted on the website and social. Each post has a 9:16 story to share.</p>
+      </header>
+      <div id="blogs-list" class="grid-2"></div>
+    </div>
+  </section>
+
+  <section id="newsletters" class="section">
+    <div class="wrap">
+      <header class="section-head">
+        <h2>Newsletters</h2>
+        <p>Preview the email copy below each banner.</p>
+      </header>
+      <div id="newsletters-list" class="grid-2"></div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    Prepared for <span id="footer-client">—</span>.
+  </footer>
+
+  <dialog id="lightbox" class="lightbox">
+    <div class="lightbox-inner">
+      <img id="lightbox-img" src="" alt="" />
+      <button type="button" id="lightbox-download" class="icon-btn lightbox-download" aria-label="Download image" hidden>⬇</button>
+      <button type="button" id="lightbox-close" class="icon-btn lightbox-close" aria-label="Close">✕</button>
+    </div>
+  </dialog>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
