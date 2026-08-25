@@ -32,12 +32,13 @@ copy and CTAs, and an Instagram grid preview.
 
 This is the **final step** of the content-production pipeline. It runs after:
 
-1. `content-plan-generator` → produced the Content Plan
-2. `carousel-prompt-generator` → produced slide prompts
-3. **Automated step** → images generated via GPT-5.4 Image-2/OpenRouter and uploaded by FTP
-   (see `coordenadas-hermes-fleet` Fase 5) — no longer a manual ChatGPT step
-4. `blog-post-generator` → produced full blog posts
-5. **This skill** → generates the static landing page and commits it for Coolify to redeploy
+1. `content-plan-generator` → produced the Content Plan (newsletters + their banner prompts)
+2. In parallel: `carousel-prompt-generator` (slide prompts), `blog-post-generator` (full posts +
+   banner prompts), `infographic-brief-generator` (design briefs + generation prompts)
+3. **Automated step** → all four prompt sources (carousel/blog/newsletter/infographic) generated
+   via ComfyUI Cloud and uploaded by FTP (see `coordenadas-hermes-fleet` Fase 5 — engine switched
+   2026-08-25, was GPT-5.4 Image-2/OpenRouter) — no manual ChatGPT step for any of the four
+4. **This skill** → generates the static landing page and commits it for Coolify to redeploy
 
 The template is bundled inside this skill at `template-html/` — plain `index.html` +
 `styles.css` + `app.js`, no framework, no bundler, no `npm install`. The three files are

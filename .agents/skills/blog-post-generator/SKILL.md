@@ -4,7 +4,9 @@ description: >
   Writes the full, ready-to-publish copy for blog posts listed in a brand's
   Content Plan. Integrates `copywriting` (for brand voice and persuasive
   structure), `seo-audit` (for on-page SEO optimization), and `ai-seo` (for
-  AI-search visibility). Output is a .md file for review, then a styled .html
+  AI-search visibility). Also generates one banner image prompt per post (Step 4b,
+  16:9, feeds the automated image-generation pipeline — replaces the retired manual
+  ChatGPT banner process). Output is a .md file for review, then a styled .html
   file (dark/light toggle) with per-post "Copy" buttons. Brand-agnostic.
 compatibility: >
   Requires the marketing skills from coreyhaines31/marketingskills installed at
@@ -209,6 +211,46 @@ Use `---` horizontal rules to separate each post. Save as:
 ```
 output/[BrandName]_Blog_Posts_[Month]_[Year].md
 ```
+
+---
+
+## Step 4b — Generate the banner image prompt
+
+**As of 2026-08-25, this replaces the manual ChatGPT process from
+`SOP_Blog_Banner_Image_Generation.md` (retired) — Pablo no longer generates blog banners by
+hand.** One banner image per post now goes through the same automated pipeline as carousels
+(`n8n` profile → ComfyUI Cloud, via `/webhook/one-click`), so it needs a text prompt detailed
+enough to replace what a brand-trained ChatGPT chat with reference images used to provide.
+
+1. Read `references/master-prompt-structure.md` for the preamble (Section 0) and the 7-section
+   structure — same skeleton `carousel-prompt-generator` uses. Read
+   `references/brand-extraction-checklist.md` for what to pull from the brand guide.
+2. **Aspect ratio override:** blog banners are **16:9**, not the carousel's 4:5. Replace the
+   preamble's aspect-ratio line with:
+   ```
+   Make the image 16:9 aspect ratio.
+   ```
+   Keep the "Remove AI Slop" realism block as-is (included by default).
+3. Because there's no reference image to attach (unlike the old ChatGPT flow), describe the
+   brand's established banner look explicitly in the composition/color/typography sections —
+   pull concrete hex values, fonts, and layout conventions from the brand guide rather than
+   general adjectives.
+4. One prompt per blog post, using that post's actual title and core takeaway as the subject.
+5. Append to the same `.md` deliverable from Step 4, after all posts, as its own section:
+
+```markdown
+## Banner Image Prompts
+
+### Banner — blog.1 — [Post 1 Title]
+[Full prompt text]
+
+### Banner — blog.2 — [Post 2 Title]
+[Full prompt text]
+```
+
+The `blog.N` label is the filename convention the `n8n` profile reads to build the
+`blog-N` key of the image-generation webhook payload — keep the numbering in Content-Plan
+order, matching the post order in Step 4.
 
 ---
 

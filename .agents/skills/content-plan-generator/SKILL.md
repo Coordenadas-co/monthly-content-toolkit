@@ -346,6 +346,23 @@ Hi [First Name],
 → [CTA phrase]: [URL]
 ```
 
+4. **Generate the banner image prompt.** As of 2026-08-25 this replaces the manual ChatGPT
+   process from `SOP_Newsletter_Banner_Image_Generation.md` (retired) — one banner per
+   newsletter now goes through the same automated pipeline as carousels (`n8n` profile →
+   ComfyUI Cloud). Read `references/master-prompt-structure.md` for the preamble/7-section
+   structure and `references/brand-extraction-checklist.md` for the brand pull. Override the
+   preamble's aspect-ratio line to **16:9** (not the carousel default of 4:5), keep the
+   "Remove AI Slop" block, and describe the brand's banner look explicitly in words (hex
+   colors, fonts, layout) since no reference image gets attached anymore. Use the newsletter's
+   subject line, not the blog title, as the prompt subject — even when the topic overlaps with
+   a blog post. Append each prompt to the plan's Newsletter section:
+   ```markdown
+   #### Banner — newsletter.[N]
+   [Full prompt text]
+   ```
+   The `newsletter.N` label is what the `n8n` profile reads to build the `newsletter-N` key
+   of the image-generation webhook payload — number in the order newsletters appear in the plan.
+
 ### Social Post (load `social` + `copywriting`)
 
 1. Load `social` skill — follow hook formulas, platform-specific formatting

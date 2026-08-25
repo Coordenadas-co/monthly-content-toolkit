@@ -1,5 +1,11 @@
 # SOP — Newsletter Banner Image Generation
 
+> **RETIRED — 2026-08-25.** Pablo no longer generates newsletter banners by hand in ChatGPT.
+> `content-plan-generator` now writes a generation-ready prompt per newsletter (Newsletter/Email
+> step) that goes through the same automated pipeline as carousels (`n8n` profile → ComfyUI
+> Cloud, via `/webhook/one-click`). Kept below for historical reference / style continuity only —
+> the 16:9 ratio and `newsletter.N` filename convention it documents still apply.
+
 **Owner:** Pablo (Coordenadas)
 **Status:** Documented manual process. Fully human-guided — no companion skill exists or is planned
 for this step.

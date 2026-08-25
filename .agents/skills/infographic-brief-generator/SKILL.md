@@ -3,9 +3,11 @@ name: infographic-brief-generator
 description: >
   Generates a complete design brief for each infographic in a brand's Content
   Plan. Produces a structured brief covering dimensions, visual hierarchy,
-  color system, data presentation, typography, and layout — ready to hand to
-  a designer. Integrates the `image` skill for visual direction. Output is a
-  .md file for review, then a styled .html file (dark/light toggle).
+  color system, data presentation, typography, and layout, plus a
+  generation-ready image prompt distilled from that brief (Step 3, feeds the
+  automated image-generation pipeline — no longer built by a human designer
+  from the brief alone). Integrates the `image` skill for visual direction.
+  Output is a .md file for review, then a styled .html file (dark/light toggle).
   Brand-agnostic.
 compatibility: >
   Requires the `image` marketing skill from coreyhaines31/marketingskills
@@ -141,6 +143,27 @@ following sections:
 - **Design reference** — mood board reference if applicable (3-5 keywords
   for the designer to search)
 
+### Generation Prompt
+
+**As of 2026-08-25, infographics also go through the automated image-generation pipeline**
+(`n8n` profile → ComfyUI Cloud) alongside carousels — they're no longer built exclusively by a
+human designer from the brief above. This section distills everything above into one
+generation-ready prompt, same underlying structure `carousel-prompt-generator` uses: read
+`references/master-prompt-structure.md` for the preamble/7-section skeleton and
+`references/brand-extraction-checklist.md` for the brand pull.
+
+- **Aspect ratio / dimensions override:** use THIS infographic's own **Dimensions & Format**
+  canvas size from above (e.g. `1080×1920`), not the carousel's fixed 4:5 — infographics vary
+  by content, unlike blog/newsletter banners which are always 16:9.
+- Keep the "Remove AI Slop" realism block only if the infographic includes photographic
+  elements; for a typography/data-driven layout (charts, calendars, icon grids) it's usually
+  irrelevant — include it only when the Style Summary calls for photographic content.
+- Translate the Color System, Typography, Data Presentation, and Layout Structure sections
+  above into explicit prose (hex values, exact copy for headlines/labels, grid structure) —
+  the model has no access to the brief as structured data, only to this prompt's text.
+- The brief above stays in the deliverable as the human-readable design reference (still
+  useful for QA and for a designer to touch up output); this prompt is the machine input.
+
 ---
 
 ## Step 4 — Write the Markdown deliverable
@@ -177,10 +200,15 @@ _Persona: [persona] · Purpose: [purpose]_
 ### Style Summary
 ...
 
+### Generation Prompt — infographic.[N]
+[Full prompt text]
+
 ---
 ```
 
-One `---`-separated section per infographic. Save as:
+The `infographic.N` label is what the `n8n` profile reads to build the `infographic-N` key
+of the image-generation webhook payload — number in Content-Plan order. One `---`-separated
+section per infographic. Save as:
 
 ```
 output/[BrandName]_Infographic_Briefs_[Month]_[Year].md
