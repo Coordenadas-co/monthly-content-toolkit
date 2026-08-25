@@ -355,13 +355,24 @@ Hi [First Name],
    "Remove AI Slop" block, and describe the brand's banner look explicitly in words (hex
    colors, fonts, layout) since no reference image gets attached anymore. Use the newsletter's
    subject line, not the blog title, as the prompt subject — even when the topic overlaps with
-   a blog post. Append each prompt to the plan's Newsletter section:
+   a blog post.
+5. **Also write the Instagram Story companion prompt** (as of 2026-08-25, replaces the manual
+   ChatGPT process from `SOP_Instagram_Story_Banner_Generation.md`, retired). Same approach as
+   `blog-post-generator`'s Step 4b: reuse the banner prompt's composition/color/typography
+   description verbatim, change the aspect-ratio line to `Make the image 9:16 aspect ratio,
+   1080x1920 pixels.`, and explicitly instruct the model to omit any logo (keeps the Story's
+   bottom clear for an Instagram Link sticker).
+6. Append both prompts to the plan's Newsletter section:
    ```markdown
    #### Banner — newsletter.[N]
    [Full prompt text]
+
+   #### Story — newsletter.[N]-story
+   [Full prompt text, banner composition reused, 9:16, no logo]
    ```
-   The `newsletter.N` label is what the `n8n` profile reads to build the `newsletter-N` key
-   of the image-generation webhook payload — number in the order newsletters appear in the plan.
+   The `newsletter.N` / `newsletter.N-story` labels are what the `n8n` profile reads to build
+   the `newsletter-N` key of the image-generation webhook payload — number in the order
+   newsletters appear in the plan. Both count toward the same `newsletter-N` list.
 
 ### Social Post (load `social` + `copywriting`)
 

@@ -1,5 +1,14 @@
 # SOP — Instagram Story Banner Generation
 
+> **RETIRED — 2026-08-25.** Pablo no longer converts banners to Stories by hand in ChatGPT.
+> `blog-post-generator` (Step 4b) and `content-plan-generator` (Newsletter/Email step) now each
+> write a Story companion prompt alongside the banner prompt — same composition reused verbatim,
+> 9:16 instead of 16:9, logo explicitly omitted — through the same automated pipeline (`n8n`
+> profile → ComfyUI Cloud). No image-to-image step: the visual match comes from reusing the same
+> detailed prompt text, not from feeding the banner image back in. Kept below for historical
+> reference only — the 1080×1920 size and `blog.N-story`/`newsletter.N-story` filename convention
+> it documents still apply.
+
 **Owner:** Pablo (Coordenadas)
 **Status:** Documented manual process. Fully human-guided — no companion skill exists or is planned
 for this step.

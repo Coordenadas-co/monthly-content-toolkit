@@ -1,5 +1,13 @@
 # SOP — Carousel Slide Image Generation
 
+> **STALE / SUPERSEDED — 2026-08-25.** This document predates the automated pipeline and was
+> never updated: `carousel-prompt-generator` produces the per-slide prompts (unchanged), and
+> generation now runs through `n8n` → ComfyUI Cloud (`/webhook/one-click`), not manual ChatGPT.
+> Confirmed live — 24 real carousel images (8 carousels × 3 slides) generated this way for
+> PayWise. Part 2 (post-processing: standardize dimensions, logo placement, file naming) may
+> still apply depending on whether `carousel-slide-processor` runs after the automated
+> generation — not re-verified as part of this pass. Kept below for historical reference only.
+
 **Owner:** Pablo (Coordenadas)
 **Status:** Documented manual process. Part 2 (post-generation) has a companion Claude skill
 (`carousel-slide-processor`) that handles the automatable steps. Part 1 (generation in ChatGPT)

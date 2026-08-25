@@ -4,9 +4,10 @@ description: >
   Writes the full, ready-to-publish copy for blog posts listed in a brand's
   Content Plan. Integrates `copywriting` (for brand voice and persuasive
   structure), `seo-audit` (for on-page SEO optimization), and `ai-seo` (for
-  AI-search visibility). Also generates one banner image prompt per post (Step 4b,
-  16:9, feeds the automated image-generation pipeline — replaces the retired manual
-  ChatGPT banner process). Output is a .md file for review, then a styled .html
+  AI-search visibility). Also generates one banner image prompt per post plus its Instagram Story companion
+  (Step 4b, 16:9 + 9:16, feeds the automated image-generation pipeline — replaces both
+  retired manual ChatGPT processes, banner generation and Story conversion). Output is
+  a .md file for review, then a styled .html
   file (dark/light toggle) with per-post "Copy" buttons. Brand-agnostic.
 compatibility: >
   Requires the marketing skills from coreyhaines31/marketingskills installed at
@@ -236,7 +237,17 @@ enough to replace what a brand-trained ChatGPT chat with reference images used t
    pull concrete hex values, fonts, and layout conventions from the brand guide rather than
    general adjectives.
 4. One prompt per blog post, using that post's actual title and core takeaway as the subject.
-5. Append to the same `.md` deliverable from Step 4, after all posts, as its own section:
+5. **Also write the Instagram Story companion prompt** (as of 2026-08-25, replaces the manual
+   ChatGPT process from `SOP_Instagram_Story_Banner_Generation.md`, retired — Pablo no longer
+   converts banners to Stories by hand). The old SOP worked by dropping the finished banner image
+   into ChatGPT and asking for a 9:16 recreation with the logo removed — there's no image input
+   here, so instead **reuse the banner prompt's own composition/color/typography description
+   verbatim**, changing only: aspect ratio line to `Make the image 9:16 aspect ratio, 1080x1920
+   pixels.`, and explicitly instruct the model to omit any logo element (the Story's bottom stays
+   clear for an Instagram Link sticker — functional, not aesthetic, don't skip it even if the
+   banner prompt has no visible logo to begin with, just state its absence). This keeps the Story
+   visually consistent with its banner without needing an image-to-image step.
+6. Append both to the same `.md` deliverable from Step 4, after all posts, as one section:
 
 ```markdown
 ## Banner Image Prompts
@@ -244,13 +255,20 @@ enough to replace what a brand-trained ChatGPT chat with reference images used t
 ### Banner — blog.1 — [Post 1 Title]
 [Full prompt text]
 
+### Story — blog.1-story — [Post 1 Title]
+[Full prompt text, banner composition reused, 9:16, no logo]
+
 ### Banner — blog.2 — [Post 2 Title]
+[Full prompt text]
+
+### Story — blog.2-story — [Post 2 Title]
 [Full prompt text]
 ```
 
-The `blog.N` label is the filename convention the `n8n` profile reads to build the
-`blog-N` key of the image-generation webhook payload — keep the numbering in Content-Plan
-order, matching the post order in Step 4.
+The `blog.N` / `blog.N-story` labels are the filename convention the `n8n` profile reads to
+build the `blog-N` key of the image-generation webhook payload — keep the numbering in
+Content-Plan order, matching the post order in Step 4. Both banner and Story count toward the
+same `blog-N` list — the webhook doesn't distinguish, it just generates every entry it's given.
 
 ---
 

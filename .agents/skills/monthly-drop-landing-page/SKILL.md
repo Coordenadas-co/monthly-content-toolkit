@@ -37,7 +37,10 @@ This is the **final step** of the content-production pipeline. It runs after:
    banner prompts), `infographic-brief-generator` (design briefs + generation prompts)
 3. **Automated step** → all four prompt sources (carousel/blog/newsletter/infographic) generated
    via ComfyUI Cloud and uploaded by FTP (see `coordenadas-hermes-fleet` Fase 5 — engine switched
-   2026-08-25, was GPT-5.4 Image-2/OpenRouter) — no manual ChatGPT step for any of the four
+   2026-08-25, was GPT-5.4 Image-2/OpenRouter) — no manual ChatGPT step for any of the four. Blog
+   and newsletter banners also carry an Instagram Story companion (`blog.N-story` /
+   `newsletter.N-story`, 9:16) through the same pipeline — the old manual banner→Story ChatGPT
+   conversion (`SOP_Instagram_Story_Banner_Generation.md`) is retired too.
 4. **This skill** → generates the static landing page and commits it for Coolify to redeploy
 
 The template is bundled inside this skill at `template-html/` — plain `index.html` +
