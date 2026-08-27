@@ -1,10 +1,27 @@
 # Infographic Brief Generator — Setup Guide
 
-## 1. Install Marketing Skills
+## 1. Install Marketing Skills (default)
 
 ```powershell
 npx skills add coreyhaines31/marketingskills --global -y
 ```
+
+**Install the catalog by default.** The `skills` CLI detects your agent
+(Hermes Agent, OpenCode, etc.), installs into that agent's skill directory,
+and maintains a lockfile — it is not a plain file copy. Verify:
+
+```powershell
+npx skills list --global
+```
+
+> **Fallback (emergency-only):** if the catalog genuinely cannot be installed,
+> this skill still produces contract-correct briefs using the brand guide +
+> general infographic best practices. Treat that as degraded, NOT a parallel
+> choice — the bundled guidance is a static snapshot and can go stale (real
+> example: DALL-E 3 deprecation and current model guidance live in the `image`
+> catalog skill, not in any bundled fallback). Flag "marketing skills not
+> installed" explicitly in the output if you run this way. See
+> `docs/EXECUTION_MODES.md`.
 
 ## 2. Add the Infographic Brief Skill
 

@@ -1,7 +1,14 @@
 # Monthly Content Toolkit
 
 One-time installer for the Coordenadas content production pipeline skills.
-Clone, run `setup.ps1`, delete the repo. Skills persist in OpenCode.
+Clone, run `setup.ps1`, delete the repo. Skills persist in your agent's skill
+directory (OpenCode, Hermes Agent, or another agent).
+
+**Execution modes:** the five pipeline skills can run natively in any agent
+that reads files and follows a skill (proven with Hermes Agent on 2026-08-12)
+or through OpenCode. See `docs/EXECUTION_MODES.md` — including which marketing
+sub-skills catalog to install by default and why the bundled fallback
+references are degraded/emergency-only, not a parallel choice.
 
 ---
 
@@ -51,7 +58,12 @@ Add `-Force` to reinstall if skills already exist:
 Plus 46 marketing sub-skills (content-strategy, copywriting, image, seo-audit,
 ai-seo, marketing-psychology, social, ad-creative, brainstorming, etc.)
 
-All skills live at `~/.config/opencode/skills/` after install.
+All skills live in your agent's skill directory after install (e.g.
+`~/.agents/skills/` for Hermes Agent; OpenCode's directory for OpenCode).
+Install the marketing catalog by default:
+`npx skills add coreyhaines31/marketingskills --global -y` — see
+`docs/EXECUTION_MODES.md` for why this is the default and what the bundled
+fallback is good for (emergency-only, not a parallel choice).
 
 ## Prerequisites
 
