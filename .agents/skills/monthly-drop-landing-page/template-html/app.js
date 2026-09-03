@@ -281,6 +281,26 @@
     });
   }
 
+
+  function renderInfographics(items) {
+    const host = document.getElementById("infographics-list");
+    if (!host) return;
+    (items || []).forEach((g) => {
+      const card = el("article", { class: "info-card" }, [
+        el("button", {
+          type: "button", class: "banner-col", "aria-label": "Open " + g.title,
+          onclick: () => g.image && openLightbox({ src: g.image, alt: g.title, downloadFilename: "infographic-" + g.id + ".png" }),
+        }, imageOrPlaceholder({ src: g.image, alt: g.title, aspect: "portrait", downloadFilename: "infographic-" + g.id + ".png" })),
+        el("div", { class: "body" }, [
+          el("p", { class: "eyebrow" }, "Infografia " + g.id),
+          el("h3", {}, g.title),
+          g.detail ? el("p", { class: "preview" }, g.detail) : null,
+        ]),
+      ]);
+      host.appendChild(card);
+    });
+  }
+
   // ---- boot ------------------------------------------------------------------
 
   function init() {
@@ -293,6 +313,7 @@
     renderCarousels(CONTENT.carousels || []);
     renderBlogs(CONTENT.blogs || []);
     renderNewsletters(CONTENT.newsletters || []);
+    renderInfographics(CONTENT.infographics || []);
   }
 
   document.addEventListener("DOMContentLoaded", init);
