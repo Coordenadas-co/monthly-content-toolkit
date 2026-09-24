@@ -56,7 +56,7 @@ brand kit) in memory so the skill has everything it needs.
 | Blog Posts (SEO-optimized) | 4-6 | — | `copywriting`, `seo-audit`/`ai-seo` |
 | Newsletters / Emails | 4-6 | — | `emails`, `copywriting` |
 | Social Posts (LinkedIn, X, Instagram) | 8-12 | Optional | `social`, `copywriting` |
-| Video Scripts (AI or programmatic) | 2-4 | Optional | `video`, `copywriting` |
+| Video Scripts (script only, no production) | per cycle config | Optional | `references/video-script-guide.md` |
 | Ad Creative (headlines, descriptions, variants) | 3-5 | Optional | `ad-creative` |
 | Lead Magnets (gated content) | 1-2 | Optional | `lead-magnets`, `offers` |
 | SEO Content Pages (programmatic or comparison) | 2-3 | Optional | `programmatic-seo`, `competitors` |
@@ -395,22 +395,33 @@ ASSETS NEEDED
 [Description of image, video, or graphic needed]
 ```
 
-### Video Script (load `video` + `copywriting`)
+### Video Script (references/video-script-guide.md)
 
-1. Load `video` skill — determine production approach (AI generation, programmatic, AI avatar)
-2. Output:
+Type, aspect ratio and presenter for each `video.N` come pre-decided from the
+cycle config — never ask live. If a video's type arrives as "Mixed", pick the
+real type yourself from the guide's table based on the cycle's strategic
+direction, and never repeat the same type across two videos in the same mix.
+
+1. Read `references/video-script-guide.md` — it has the type/aspect/presenter
+   tables and the beat-sheet script format. This replaces loading a general
+   `video` production skill: no video is actually rendered here, only the
+   script text, so tooling/API guidance doesn't apply.
+2. Label the block with the literal prefix `video.N —` (N = its 1-based
+   position among the videos in this mix) — it's the identifier the pipeline
+   validates against, don't change its shape.
+3. Output:
 
 ```
-[Date or Week N] — Video Script
+video.N — [Week N] — Video Script
 👤 Persona: [Exact cluster name]
-📅 Week [N] · [Week Theme]
-🎬 Format: [Short-form (15-60s) / Explainer (1-3 min) / Testimonial]
-🛠 Production approach: [AI generation / AI avatar / Programmatic / Edited]
+🎬 Type: [Demo / Explainer / Testimonial / Social clip / Ad / Tutorial]
+📐 Aspect: [9:16 vertical / 16:9 horizontal / 1:1 feed]
+🛠 Presenter: [Sin presentador (screen recording + voiceover) / AI avatar / Sólo voz en off]
 
-SCRIPT
-[Opening hook — 3 seconds]
-[Body — problem/solution or list format]
-[CTA — action]
+SCRIPT (beat sheet)
+[0–Ns] Visual: [what's on screen this beat]
+Audio: [what's said or heard]
+[repeat per beat until the CTA closes it]
 
 VISUAL NOTES
 [Scene descriptions, on-screen text, brand elements to include]
@@ -747,6 +758,9 @@ After approval, generate the styled HTML version:
         - Blog posts → `id="post-1"`, `id="post-2"`, … `post-N` (matches `blog-post-generator`'s rendered `id="post-${p.id}"` → `#post-N`. Do NOT use `b1`/`b2` — that scheme diverged from the real anchor and is retired.)
        - Newsletters → `id="nl1"`, `id="nl2"`, … (no confirmed downstream anchor yet — keep as-is)
        - Infographics → `id="ig1"`, `id="ig2"`, … (no confirmed downstream anchor yet — keep as-is)
+       - Videos → `id="video-1"`, `id="video-2"`, … `video-N` (REQUIRED — matches the `video.N` label used in
+         content-plan.md; the pipeline validates both). No downstream stage consumes this today, but keep the
+         anchor stable for when one exists — same reasoning as carousels/blog posts, just earlier.
        - Other types: `id` optional unless a downstream anchor exists
      - **Default ID policy (CRITICAL):** when a downstream skill for a type exists, audit its REAL rendered anchor format first (open an actual generated output file and check the `id`/`href` it emits), then align this content-plan card ID to match — never the reverse, never guessed in advance. The detail-link JS in the template resolves cards by this ID.
      - The template's built-in JS reads `#content-manifest` (embedded via `{{MANIFEST_JSON}}`) and injects a `🔗 Detail` link into each matching card's `.card-actions` automatically. Just provide the right `id` and the manifest (Step 10d). Do not hand-write detail links in card HTML.
