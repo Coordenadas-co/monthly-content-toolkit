@@ -303,6 +303,16 @@
 
   // ---- boot ------------------------------------------------------------------
 
+  // Las secciones y el nav están hardcodeados en index.html — si el ciclo
+  // pidió 0 de un entregable, content.js trae el array vacío y sin esto
+  // queda un título + hueco vacío en la landing (confirmado en vivo con
+  // Infografías=0).
+  function pruneIfEmpty(sectionId, navHref, items) {
+    if ((items || []).length) return;
+    document.getElementById(sectionId)?.remove();
+    document.querySelector(`a[href="#${navHref}"]`)?.remove();
+  }
+
   function init() {
     if (typeof CONTENT === "undefined") {
       console.error("content.js did not define a global CONTENT object — nothing to render.");
@@ -314,6 +324,12 @@
     renderBlogs(CONTENT.blogs || []);
     renderNewsletters(CONTENT.newsletters || []);
     renderInfographics(CONTENT.infographics || []);
+
+    pruneIfEmpty("grid", "grid", CONTENT.carousels);
+    pruneIfEmpty("carousels", "carousels", CONTENT.carousels);
+    pruneIfEmpty("blogs", "blogs", CONTENT.blogs);
+    pruneIfEmpty("newsletters", "newsletters", CONTENT.newsletters);
+    pruneIfEmpty("infographics", "infographics", CONTENT.infographics);
   }
 
   document.addEventListener("DOMContentLoaded", init);
